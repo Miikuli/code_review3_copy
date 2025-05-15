@@ -23,22 +23,22 @@
 
 Node::Node(std::string val) : value(val), left(nullptr), right(nullptr) {}
 
-int get_priority(const std::string& op) {
+int Get_priority(const std::string& op) {
     if (op == "+" || op == "-") return 1;
     if (op == "*" || op == "/" || op == "%") return 2;
     if (op == "^") return 3;
     return 0;
 }
 
-bool is_number(const std::string& s) {
+bool Is_number(const std::string& s) {
     return std::all_of(s.begin(), s.end(), ::isdigit);
 }
 
-bool is_operator(const std::string& s) {
+bool Is_operator(const std::string& s) {
     return s == "+" || s == "-" || s == "*" || s == "/" || s == "%" || s == "^";
 }
 
-std::vector<std::string> tokenize(const std::string& expression) {
+std::vector<std::string> Tokenize(const std::string& expression) {
     std::vector<std::string> tokens;
     std::string current_token;
     for (char c : expression) {
@@ -69,7 +69,7 @@ std::vector<std::string> tokenize(const std::string& expression) {
     return tokens;
 }
 
-Node* build_expression_tree(std::vector<std::string>& postfix_tokens) {
+Node* Build_expression_tree(std::vector<std::string>& postfix_tokens) {
     std::stack<Node*> node_stack;
     for (const std::string& token : postfix_tokens) {
         if (is_number(token) || token == "x") {
@@ -88,7 +88,7 @@ Node* build_expression_tree(std::vector<std::string>& postfix_tokens) {
     return node_stack.top();
 }
 
-std::vector<std::string> infix_to_postfix(const std::vector<std::string>& infix_tokens) {
+std::vector<std::string> Infix_to_postfix(const std::vector<std::string>& infix_tokens) {
     std::vector<std::string> postfix_tokens;
     std::stack<std::string> operator_stack;
 
@@ -122,7 +122,7 @@ std::vector<std::string> infix_to_postfix(const std::vector<std::string>& infix_
     return postfix_tokens;
 }
 
-int evaluate(Node* node, int x_value) {
+int Evaluate(Node* node, int x_value) {
     if (!node) return 0;
     if (is_number(node->value)) {
         return std::stoi(node->value);
@@ -141,7 +141,7 @@ int evaluate(Node* node, int x_value) {
     return 0;
 }
 
-Node* transform_tree(Node* node) {
+Node* Transform_tree(Node* node) {
     if (!node) return nullptr;
 
     node->left = transform_tree(node->left);
@@ -154,7 +154,7 @@ Node* transform_tree(Node* node) {
     return node;
 }
 
-void print_tree_helper(Node* node, int level, std::ofstream& outfile) {
+void Print_tree_helper(Node* node, int level, std::ofstream& outfile) {
     if (!node) return;
 
     print_tree_helper(node->right, level + 1, outfile);
@@ -164,11 +164,11 @@ void print_tree_helper(Node* node, int level, std::ofstream& outfile) {
     print_tree_helper(node->left, level + 1, outfile);
 }
 
-void print_tree(Node* root, std::ofstream& outfile) {
+void Print_tree(Node* root, std::ofstream& outfile) {
     print_tree_helper(root, 0, outfile);
 }
 
-void delete_tree(Node* node) {
+void Delete_tree(Node* node) {
     if (node) {
         delete_tree(node->left);
         delete_tree(node->right);
