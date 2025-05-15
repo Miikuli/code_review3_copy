@@ -41,42 +41,42 @@ struct Node {
  * @param op Строковое представление оператора.
  * @return Целое число, представляющее приоритет оператора (чем выше число, тем выше приоритет).
  */
-int get_priority(const std::string& op);
+int Get_priority(const std::string& op);
 
 /**
  * @brief Проверяет, является ли строка целым числом.
  * @param s Строка для проверки.
  * @return true, если строка является целым числом, false в противном случае.
  */
-bool is_number(const std::string& s);
+bool Is_number(const std::string& s);
 
 /**
  * @brief Проверяет, является ли строка арифметическим оператором.
  * @param s Строка для проверки.
  * @return true, если строка является оператором, false в противном случае.
  */
-bool is_operator(const std::string& s);
+bool Is_operator(const std::string& s);
 
 /**
  * @brief Выполняет лексический анализ арифметического выражения.
  * @param expression Строка с арифметическим выражением в инфиксной форме.
  * @return Вектор строк, представляющих токены выражения.
  */
-std::vector<std::string> tokenize(const std::string& expression);
+std::vector<std::string> Tokenize(const std::string& expression);
 
 /**
  * @brief Строит дерево выражения из постфиксной нотации.
  * @param postfix_tokens Вектор строк с токенами в постфиксной форме.
  * @return Указатель на корень построенного дерева выражения.
  */
-Node* build_expression_tree(std::vector<std::string>& postfix_tokens);
+Node* Build_expression_tree(std::vector<std::string>& postfix_tokens);
 
 /**
  * @brief Преобразует инфиксную нотацию в постфиксную (обратная польская запись).
  * @param infix_tokens Вектор строк с токенами в инфиксной форме.
  * @return Вектор строк с токенами в постфиксной форме.
  */
-std::vector<std::string> infix_to_postfix(const std::vector<std::string>& infix_tokens);
+std::vector<std::string> Infix_to_postfix(const std::vector<std::string>& infix_tokens);
 
 /**
  * @brief Вычисляет значение поддерева выражения.
@@ -84,14 +84,14 @@ std::vector<std::string> infix_to_postfix(const std::vector<std::string>& infix_
  * @param x_value Значение переменной x.
  * @return Целочисленный результат вычисления поддерева.
  */
-int evaluate(Node* node, int x_value);
+int Evaluate(Node* node, int x_value);
 
 /**
  * @brief Преобразует дерево, заменяя поддеревья вида x * A на A * x.
  * @param node Указатель на корень дерева (или поддерева).
  * @return Указатель на корень преобразованного дерева (или поддерева).
  */
-Node* transform_tree(Node* node);
+Node* Transform_tree(Node* node);
 
 /**
  * @brief Вспомогательная функция для рекурсивной печати дерева.
@@ -99,19 +99,19 @@ Node* transform_tree(Node* node);
  * @param level Текущий уровень дерева.
  * @param outfile Поток вывода в файл.
  */
-void print_tree_helper(Node* node, int level, std::ofstream& outfile);
+void Print_tree_helper(Node* node, int level, std::ofstream& outfile);
 
 /**
  * @brief Печатает дерево выражения в файл в многострочном формате.
  * @param root Указатель на корень дерева.
  * @param outfile Поток вывода в файл.
  */
-void print_tree(Node* root, std::ofstream& outfile);
+void Print_tree(Node* root, std::ofstream& outfile);
 
 /**
  * @brief Освобождает память, занятую деревом выражения (рекурсивно).
  * @param node Указатель на корень дерева (или поддерева).
  */
-void delete_tree(Node* node);
+void Delete_tree(Node* node);
 
 #endif // CALC_TREE_H
