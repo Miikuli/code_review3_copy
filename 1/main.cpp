@@ -10,7 +10,7 @@
 #include <vector>
 #include <ctime>
 #include <cstdlib>
-#include "generator.h"
+#include "password_generator.h"
 
 int main() {
     setlocale(LC_ALL, "Rus");
