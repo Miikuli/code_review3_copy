@@ -35,29 +35,29 @@ int main() {
     std::cout << "Введите значение переменной x: ";
     std::cin >> x_value;
 
-    std::vector<std::string> infix_tokens = tokenize(expression_str);
+    std::vector<std::string> infix_tokens = Tokenize(expression_str);
 
-    std::vector<std::string> postfix_tokens = infix_to_postfix(infix_tokens);
+    std::vector<std::string> postfix_tokens = Infix_to_postfix(infix_tokens);
 
-    Node* root = build_expression_tree(postfix_tokens);
+    Node* root = Build_expression_tree(postfix_tokens);
 
-    int result = evaluate(root, x_value);
+    int result = Evaluate(root, x_value);
 
-    Node* transformed_root = transform_tree(root);
+    Node* transformed_root = Transform_tree(root);
 
     std::ofstream outfile(filename_out);
     if (outfile.is_open()) {
         outfile << "Результат вычисления: " << result << std::endl << std::endl;
         outfile << "Преобразованное дерево:" << std::endl;
-        print_tree(transformed_root, outfile);
+        Print_tree(transformed_root, outfile);
         outfile.close();
     } else {
         std::cerr << "Не удалось открыть файл: " << filename_out << std::endl;
-        delete_tree(transformed_root);
+        Delete_tree(transformed_root);
         return 1;
     }
 
-    delete_tree(transformed_root);
+    Delete_tree(transformed_root);
 
     return 0;
 }
