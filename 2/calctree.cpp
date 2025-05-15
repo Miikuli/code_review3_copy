@@ -49,7 +49,7 @@ std::vector<std::string> Tokenize(const std::string& expression) {
             }
         } else if (isdigit(c)) {
             current_token += c;
-        } else if (is_operator(std::string(1, c)) || c == '(' || c == ')') {
+        } else if (Is_operator(std::string(1, c)) || c == '(' || c == ')') {
             if (!current_token.empty()) {
                 tokens.push_back(current_token);
                 current_token.clear();
@@ -72,9 +72,9 @@ std::vector<std::string> Tokenize(const std::string& expression) {
 Node* Build_expression_tree(std::vector<std::string>& postfix_tokens) {
     std::stack<Node*> node_stack;
     for (const std::string& token : postfix_tokens) {
-        if (is_number(token) || token == "x") {
+        if (Is_number(token) || token == "x") {
             node_stack.push(new Node(token));
-        } else if (is_operator(token)) {
+        } else if (Is_operator(token)) {
             Node *right_operand = node_stack.top();
             node_stack.pop();
             Node *left_operand = node_stack.top();
@@ -93,7 +93,7 @@ std::vector<std::string> Infix_to_postfix(const std::vector<std::string>& infix_
     std::stack<std::string> operator_stack;
 
     for (const std::string& token : infix_tokens) {
-        if (is_number(token) || token == "x") {
+        if (Is_number(token) || token == "x") {
             postfix_tokens.push_back(token);
         } else if (token == "(") {
             operator_stack.push(token);
@@ -105,8 +105,8 @@ std::vector<std::string> Infix_to_postfix(const std::vector<std::string>& infix_
             if (!operator_stack.empty() && operator_stack.top() == "(") {
                 operator_stack.pop();
             }
-        } else if (is_operator(token)) {
-            while (!operator_stack.empty() && get_priority(operator_stack.top()) >= get_priority(token)) {
+        } else if (Is_operator(token)) {
+            while (!operator_stack.empty() && Get_priority(operator_stack.top()) >= Get_priority(token)) {
                 postfix_tokens.push_back(operator_stack.top());
                 operator_stack.pop();
             }
@@ -124,13 +124,13 @@ std::vector<std::string> Infix_to_postfix(const std::vector<std::string>& infix_
 
 int Evaluate(Node* node, int x_value) {
     if (!node) return 0;
-    if (is_number(node->value)) {
+    if (Is_number(node->value)) {
         return std::stoi(node->value);
     } else if (node->value == "x") {
         return x_value;
     } else {
-        int left_val = evaluate(node->left, x_value);
-        int right_val = evaluate(node->right, x_value);
+        int left_val = Evaluate(node->left, x_value);
+        int right_val = Evaluate(node->right, x_value);
         if (node->value == "+") return left_val + right_val;
         if (node->value == "-") return left_val - right_val;
         if (node->value == "*") return left_val * right_val;
@@ -144,8 +144,8 @@ int Evaluate(Node* node, int x_value) {
 Node* Transform_tree(Node* node) {
     if (!node) return nullptr;
 
-    node->left = transform_tree(node->left);
-    node->right = transform_tree(node->right);
+    node->left = Transform_tree(node->left);
+    node->right = Transform_tree(node->right);
 
     if (node->value == "*" && node->left && node->left->value == "x") {
         std::swap(node->left, node->right);
@@ -157,21 +157,21 @@ Node* Transform_tree(Node* node) {
 void Print_tree_helper(Node* node, int level, std::ofstream& outfile) {
     if (!node) return;
 
-    print_tree_helper(node->right, level + 1, outfile);
+    Print_tree_helper(node->right, level + 1, outfile);
 
     outfile << std::setw(level * 4) << std::right << node->value << std::endl;
 
-    print_tree_helper(node->left, level + 1, outfile);
+    Print_tree_helper(node->left, level + 1, outfile);
 }
 
 void Print_tree(Node* root, std::ofstream& outfile) {
-    print_tree_helper(root, 0, outfile);
+    Print_tree_helper(root, 0, outfile);
 }
 
 void Delete_tree(Node* node) {
     if (node) {
-        delete_tree(node->left);
-        delete_tree(node->right);
+        Delete_tree(node->left);
+        Delete_tree(node->right);
         delete node;
     }
 }
